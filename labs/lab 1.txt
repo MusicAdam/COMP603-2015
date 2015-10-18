@@ -1,0 +1,7 @@
+GCC Compiler phases:
+
+Scan, Parse, translate: 	parse.c, lex.c 	// Performs initial parsing, tokenization, lexical analysis, and translations into trees for the optimizer.
+Optimize: 					optimize.c  //Performs optimizations on tree structures.
+Generate Code:				After Research and much looking I can't actually find where this happens.
+
+It was interesting to see the opertators.def file, as it contains all of the operators used by C++

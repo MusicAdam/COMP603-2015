@@ -1,6 +1,7 @@
 What does it mean for two sets to be disjoint?
-
+When two sets are disjoint it means that they have no overlapping subsets.
 
 
 What is the union of two sets?
+The union of two sets is the subset of both sets for which the elements are in both sets.
 
