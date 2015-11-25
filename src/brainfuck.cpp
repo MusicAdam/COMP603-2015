@@ -101,6 +101,49 @@ class Program : public Container {
         }
 };
 
+class Interpreter : public Visitor {
+    char memory[30000];
+    int pointer;
+    public:
+        void visit(const CommandNode * leaf) {
+            switch (leaf->command) {
+                case INCREMENT:
+                    memory[pointer]++;
+                    break;
+                case DECREMENT:
+                    memory[pointer]--;
+                    break;
+                case SHIFT_LEFT:
+                    pointer--;
+                    break;
+                case SHIFT_RIGHT:
+                    pointer++;
+                    break;
+                case INPUT:
+                    cin.get(memory[pointer]);
+                    break;
+                case OUTPUT:
+                    cout << memory[pointer];
+                    break;
+            }
+        }
+        void visit(const Loop * loop) {
+            while(memory[pointer] > 0){
+                for (vector<Node*>::const_iterator it = loop->children.begin(); it != loop->children.end(); ++it) {
+                    (*it)->accept(this);
+                }
+            }
+        }
+        void visit(const Program * program) {
+            for (pointer = 30000; pointer > 0; pointer--) {
+                memory[pointer] = 0;
+            }
+            for (vector<Node*>::const_iterator it = program->children.begin(); it != program->children.end(); ++it) {
+                (*it)->accept(this);
+            }
+        }
+};
+
 /**
  * Read in the file by recursive descent.
  * Modify as necessary and add whatever functions you need to get things done.
@@ -153,13 +196,14 @@ int main(int argc, char *argv[]) {
     fstream file;
     Program program;
     Printer printer;
+    Interpreter interpreter;
     if (argc == 1) {
         cout << argv[0] << ": No input files." << endl;
     } else if (argc > 1) {
         for (int i = 1; i < argc; i++) {
             file.open(argv[i], fstream::in);
             parse(file, & program);
-            program.accept(&printer);
+            program.accept(&interpreter);
             file.close();
         }
     }
