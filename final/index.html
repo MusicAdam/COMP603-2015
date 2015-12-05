@@ -1,0 +1,29 @@
+<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="test.js"></script>
+<script type="text/javascript" src="gsfi.js"></script>
+<body onload="start()">
+  <canvas id="glcanvas" width="640" height="480">
+    Your browser doesn't appear to support the 
+    <code>&lt;canvas&gt;</code> element.
+  </canvas>
+  <p id="gsfi" style="white-space: pre;">
+goto 100,100
+draw square
+color it #0000FF
+set its.size to 66,100
+remember it as my_square
+debug "my_square", my_square
+
+color my_square #FF0000
+debug "my_square", my_square
+remember my_square.size as my_square_size
+
+draw square
+set the.size to my_square_size
+debug "size:", its.size
+
+find #FF0000 square
+remove it
+  </p>
+  
+</body>
