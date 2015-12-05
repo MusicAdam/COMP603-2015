@@ -39,6 +39,7 @@ gsfi.pronouns = {
   "its": "its",
   "them": "it",
   "the": "the" //not technically a pronoun but it reads nicely
+  "their": "their"
 };
 
 //Holds a bunch of shapes for which methods can be performed
