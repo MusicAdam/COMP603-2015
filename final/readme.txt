@@ -7,10 +7,8 @@ Command <arguments>
 Features:
  * Easy to read
  * Quick to learn
- * Doesn't work very well
  * No conditionals (yet)
- * Doesn't actually render to WebGL (yet)
- * Leaks memory like a sieve (at least during runtime, thanks garbage collection!)
+ * WebGL Integration
  * Not turing complete 
 Behind the Scenes:
  * Poorly organized code
@@ -21,8 +19,6 @@ Behind the Scenes:
   * Real token parsing
   * JS -> GSFI
   * GSFI -> JS (Compilation)
-  * WebGL Integration
-  * Create shapes using context
   * Reorganizing
 
 

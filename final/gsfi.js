@@ -23,13 +23,13 @@ gsfi.shapes = {
     return {
       type: type,
       color: this.defaultColor(color),
-      size: gsfi.helpers.vector("0,0"),
-      position: gsfi.helpers.vector("0,0")
+      size: gsfi.helpers.vector("10,10"),
+      position: context.position
     }
   },
   defaultColor: function(color){
     if(color == null)
-      return "#FFFFFF";
+      return "ffffff";
     return color;
   }
 };
@@ -37,7 +37,7 @@ gsfi.shapes = {
 gsfi.pronouns = {
   "it": "it",
   "its": "its",
-  "them": "it",
+  "them": "them",
   "the": "the", //not technically a pronoun but it reads nicely
   "their": "their"
 };
@@ -140,7 +140,7 @@ gsfi.commands = {
   
     var newTarget = new gsfi.target,
         color = (arguments.length > 2) ? arguments[1] : null;
-        shape = (arguments.length > 2) ? arguments[2] : argumnets[1];
+        shape = (arguments.length > 2) ? arguments[2] : arguments[1];
 
     if(context.shapes[shape] == null)
       throw new GSFIArgumentError(context.line + ": there are no \"" + shape + "\" shapes");
@@ -202,7 +202,7 @@ gsfi.commands = {
 gsfi.context = function(){
   return {
     line: 0,
-    location: gsfi.helpers.vector("0, 0"),
+    position: gsfi.helpers.vector("0,0"),
     current: new gsfi.target,
     shapes: {},
     memory: {},
@@ -294,6 +294,6 @@ gsfi.interpreter = {
       
       cmd.callback.apply(null, args);
     }
-    console.log(context);
+    return context;
   }
 };

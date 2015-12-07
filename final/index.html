@@ -1,29 +1,102 @@
 <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="vendor/pixi.min.js"></script>
 <script type="text/javascript" src="test.js"></script>
 <script type="text/javascript" src="gsfi.js"></script>
-<body onload="start()">
-  <canvas id="glcanvas" width="640" height="480">
-    Your browser doesn't appear to support the 
-    <code>&lt;canvas&gt;</code> element.
-  </canvas>
-  <p id="gsfi" style="white-space: pre;">
-goto 100,100
-draw square
-color it #0000FF
-set its.size to 66,100
-remember it as my_square
-debug "my_square", my_square
+<head>
+  <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+  <style>
+    p{
+      white-space: pre;
+      text-align: left;
+      color: #DDDDDD;
+    }
 
-color my_square #FF0000
-debug "my_square", my_square
-remember my_square.size as my_square_size
+    h1{
+      color: #EEEEEE;
+      font-size: 24px;
+      text-align: left;
+    }
 
-draw square
-set the.size to my_square_size
-debug "size:", its.size
+    .example{
+      padding:10px;
+      display: inline-block;
+      float: left;
+      background-color: gray;
+      text-align: center;
+    }
+  </style>
+</head>
+<body onload="initPixi()">
+  <button class="btn btn-danger" onclick="clearStage()">
+    <span>Clear Stage</span>
+  </button>
+  <br/>
+  <div class="example">
+    <h1>Draw at location</h1>
+    <p id="gsfi-ex1">
+      goto 100,100
+      draw square
+      color it ff0000
+      set its.size to 100,100
+    </p>
+    <button class="btn btn-info" onclick="run('#gsfi-ex1')">
+      <span>Execute</span>
+    </button>
+  </div>
 
-find #FF0000 square
-remove it
-  </p>
-  
+  <div class="example">
+    <h1>Variables</h1>
+    <p id="gsfi-ex2">
+      goto 100,100
+      draw square
+      remember it as my_square
+
+      goto 151,100
+      draw square
+      color it 0000ff
+      set its.size to 50,50
+
+      color my_square 00ff00
+      set my_square.size to 50,50
+    </p>
+    <button class="btn btn-info" onclick="run('#gsfi-ex2')">
+      <span>Execute</span>
+    </button>
+  </div>
+
+  <div class="example">
+    <h1>Find context</h1>
+    <p id="gsfi-ex3">
+      goto 0,100
+      draw square
+      set its.size to 50,50
+
+      goto 51,100
+      draw square
+      set its.size to 50,50
+
+      goto 102,100
+      draw square
+      set its.size to 50,50
+
+      goto 153,100
+      draw square
+      set its.size to 50,50
+
+      find square
+      color them ffaa00
+    </p>
+    <button class="btn btn-info" onclick="run('#gsfi-ex3')">
+      <span>Execute</span>
+    </button>
+  </div>
+
+  <div class="example">
+    <h1>Try it out</h1>
+    <textarea id="gsfi-ex4"></textarea>
+    <div class="alert alert-danger error" style="display: none;">
+    </div>
+    <button class="btn btn-info" onclick="run('#gsfi-ex4', true)">
+      <span>Execute</span>
+    </button>
 </body>

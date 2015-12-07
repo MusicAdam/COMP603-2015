@@ -1,49 +1,74 @@
-var gl; // A global variable for the WebGL context
+var context, graphics, stage;
 
-function start() {
-  var canvas = document.getElementById("glcanvas");
-
-  // Initialize the GL context
-  gl = initWebGL(canvas);
-  
-  // Only continue if WebGL is available and working
-  
-  if (gl) {
-    // Set clear color to black, fully opaque
-    gl.clearColor(0.0, 0.0, 0.0, 1.0);
-    // Enable depth testing
-    gl.enable(gl.DEPTH_TEST);
-    // Near things obscure far things
-    gl.depthFunc(gl.LEQUAL);
-    // Clear the color as well as the depth buffer.
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+function initPixi(){
+  // create an new instance of a pixi stage
+  stage = new PIXI.Container(0x66FF99);
+ 
+  // create a renderer instance.
+  var renderer = PIXI.autoDetectRenderer(400, 300);
+ 
+  // add the renderer view element to the DOM
+  document.body.appendChild(renderer.view);
+ 
+  requestAnimationFrame( animate );
+ 
+  function animate() {
+ 
+      requestAnimationFrame( animate );
+ 
+      // render the stage   
+      renderer.render(stage);
   }
 }
 
-function initWebGL(canvas) {
-  gl = null;
-  
-  try {
-    // Try to grab the standard context. If it fails, fallback to experimental.
-    gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
-  }
-  catch(e) {}
-  
-  // If we don't have a GL context, give up now
-  if (!gl) {
-    alert("Unable to initialize WebGL. Your browser may not support it.");
-    gl = null;
-  }
-  
-  return gl;
+function drawSquare(stage, graphics, shape){
+  //graphics.beginFill(parseInt(shape.color));
+  graphics.beginFill(parseInt(shape.color, 16));
+
+  // set the line style to have a width of 5 and set the color to red
+  graphics.lineStyle(0, 0xFF0000);
+
+  // draw a rectangle
+  graphics.drawRect(shape.position.x, shape.position.y, shape.size.x, shape.size.y);
+
+  stage.addChild(graphics);
 }
 
-$(document).ready(function(){
-  var src = $("#gsfi").text(),
-      gsfiParseTree = gsfi.parser.parse(src, []);
-      gsfi.interpreter.interpret(gsfiParseTree);
-});
+function drawContext(stage, graphics){
+  if(context == null) return;
 
-$(window).resize(function(){
+  $.each(context.shapes, function(type, shapes){
+    $.each(shapes, function(index, shape){
+      switch(type){
+        case "square":
+          drawSquare(stage, graphics, shape);
+          break;
+        case "circle":
+          drawCirlce(stage, graphics, shape);
+          break;
+      }
+    });
+  });
+}
 
-});
+function clearStage(){
+  while(stage.children[0]) { stage.removeChild(stage.children[0]); }
+}
+
+function run(id, textarea){
+  clearStage();
+
+  try{
+    var src = (textarea) ? $(id).val() : $(id).text(),
+        gsfiParseTree = gsfi.parser.parse(src, []);
+
+      context = gsfi.interpreter.interpret(gsfiParseTree);
+
+      graphics = new PIXI.Graphics();
+      drawContext(stage, graphics);
+      $(id).parent().find('.error').css('display', 'none');
+    }catch(err){
+      $(id).parent().find('.error').css('display', 'inherit');
+      $(id).parent().find('.error').html(err.name + " " + err.message);
+    }
+}
